@@ -24,6 +24,10 @@
                     <x-nav-link :href="route('members.create')" :active="request()->routeIs('members.create')">
                         会員登録
                     </x-nav-link>
+
+                    {{-- <x-nav-link :href="route('members.edit')" :active="request()->routeIs('members.edit')">
+                        会員編集
+                    </x-nav-link> --}}
                 </div>
             </div>
 

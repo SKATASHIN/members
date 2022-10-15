@@ -31,7 +31,7 @@ class MembersController extends Controller
         //     'name' => 'てすと',
         // ]);
 
-        $members = Member::select('name', 'email', 'tel', 'created_at')->get();
+        $members = Member::select('id', 'name', 'email', 'tel', 'created_at')->get();
 
         return view('members.index', 
         compact('members'));
@@ -83,7 +83,7 @@ class MembersController extends Controller
      */
     public function show($id)
     {
-        //
+        
     }
 
     /**
@@ -94,7 +94,9 @@ class MembersController extends Controller
      */
     public function edit($id)
     {
-        //
+        $member = Member::findOrFail($id);
+        // dd($member);
+        return view('members.edit', compact('member'));
     }
 
     /**
@@ -106,7 +108,14 @@ class MembersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $member = Member::findOrFail($id);
+        $member->name = $request->name;
+        $member->email = $request->email;
+        $member->tel = $request->tel;
+        $member->save();
+
+        return redirect()->route('members.index')
+        ->with('message', 'オーナー情報を更新しました。');
     }
 
     /**
