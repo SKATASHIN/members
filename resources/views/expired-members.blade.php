@@ -1,7 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            会員一覧
         </h2>
     </x-slot>
 
@@ -12,38 +11,40 @@
 
                     <section class="text-gray-600 body-font">
                         <div class="container px-5 mx-auto">
-                            <div class="flex flex-col text-center w-full mb-12">
-                                <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900">会員登録</h1>
+                            <div class="py-8 flex flex-col text-center w-full mb-12">
+                                <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900">削除済み会員一覧</h1>
                             </div>
 
                             <x-flash-message status="session('status')" />
 
-                            <div class="flex justify-end mb-4">
-                                <button onclick="location.href='{{ route('members.create') }}' " class="text-white bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded text-lg">新規登録する</button>
-                            </div>
                             <div class="lg:w-2/3 w-full mx-auto overflow-auto">
                                 <table class="table-auto w-full text-left whitespace-no-wrap">
-
+                                    <tbody>
                                     <thead>
                                         <tr>
                                             <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">名前</th>
-                                            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">電話番号</th>
                                             <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">メールアドレス</th>
-                                            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">作成日</th>
+                                            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">削除した日</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        @foreach ($members as $member)
-                                    <tr>
-                                        <td class="px-4 py-3">{{ $member->name }}</td>
-                                        <td class="px-4 py-3">{{ $member->tel }}</td>
-                                        <td class="px-4 py-3">{{ $member->email }}</td>
-                                        <td class="px-4 py-3 text-lg text-gray-900">{{ $member->created_at->format("Y/m/d") }}</td>
-                                        <td class="px-4 py-3">
-                                            <button onclick="location.href='{{ route('members.edit', ['member' => $member->id ]) }}'" class="text-white bg-blue-500 border-4 py-2 px-4 focus:outline-none hover:bg-blue-400 rounded">編集</button>
+                                    
+
+                                        @foreach ($expiredMembers as $member)
+                                        <tr>
+                                            <td class="px-4 py-3">{{ $member->name }}</td>
+                                            <td class="px-4 py-3">{{ $member->email }}</td>
+                                            <td class="px-4 py-3 text-lg text-gray-900">{{ $member->deleted_at->diffForHumans() }}
                                         </td>
+
+                                        <form id="delete_{{$member->id}}" method="post" action="{{ route('expired-members.destroy', ['member' => $member->id ] )}}">
+                                        @csrf
+                                        <td class="px-4 py-3">
+                                            <a href="#" data-id="{{ $member->id }}" onclick="deletePost(this)" class="text-white bg-red-400 border-0 py-2 px-4 focus:outline-none hover:bg-red-500 rounded ">完全削除</a>                        
+                                        </td>
+                                        </form>
+
                                     </tr>
-                                @endforeach
+                                        @endforeach
 
                                 </tbody>
                                 </table>
@@ -69,7 +70,13 @@
             </div>
         </div>
     </div>
-
-
+    <script>
+        function deletePost(e) {
+            'use strict';
+            if (confirm('本当に削除してもいいですか?')) {
+            document.getElementById('delete_' + e.dataset.id).submit();
+            }
+        }
+        </script>
 
 </x-app-layout>

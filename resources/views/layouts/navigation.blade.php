@@ -25,6 +25,10 @@
                         会員登録
                     </x-nav-link>
 
+                    <x-nav-link :href="route('expired-members.index')" :active="request()->routeIs('expired-members.index')">
+                        削除済み会員一覧
+                    </x-nav-link>
+
                     {{-- <x-nav-link :href="route('members.edit')" :active="request()->routeIs('members.edit')">
                         会員編集
                     </x-nav-link> --}}
@@ -84,6 +88,12 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('members.index')" :active="request()->routeIs('members.index')">
                 会員管理
+            </x-responsive-nav-link>
+        </div>
+
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('members.create')" :active="request()->routeIs('members.create')">
+                会員登録
             </x-responsive-nav-link>
         </div>
 

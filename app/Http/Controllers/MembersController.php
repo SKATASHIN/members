@@ -71,8 +71,8 @@ class MembersController extends Controller
 
         return redirect()
         ->route('members.index')
-        ->with('message', '会員登録を実施しました。');
-
+        ->with(['message' => '会員登録を実施しました。',
+        'status' => 'info']);
     }
 
     /**
@@ -115,7 +115,8 @@ class MembersController extends Controller
         $member->save();
 
         return redirect()->route('members.index')
-        ->with('message', 'オーナー情報を更新しました。');
+        ->with(['message' => '会員情報を更新しました。',
+        'status' => 'info' ]);
     }
 
     /**
@@ -126,6 +127,24 @@ class MembersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // dd('削除処理');
+        Member::findOrFail($id)->delete();  //ソフトデリート
+
+        return redirect()->route('members.index')
+        ->with(['message' => '会員情報を削除しました。',
+        'status' => 'alert']);
+    }
+
+    public function expiredMemberIndex(){ 
+        $expiredMembers = Member::onlyTrashed()->get(); 
+        return view('expired-members', compact('expiredMembers')); 
+    } 
+
+    public function expiredMemberDestroy($id){ 
+        Member::onlyTrashed()->findOrFail($id)->forceDelete(); 
+        return redirect()->route('expired-members.index')
+        ->with(['message' => '完全に削除しました。',
+        'status' => 'alert']);
+    
     }
 }

@@ -49,13 +49,23 @@
                           </div>
                         </div>
 
-                        <div class="p-2 w-full flex justify-around mt-4">
-                          <button type="button" onclick="location.href='{{ route('members.index') }}' " class="bg-gray-200 border-0 py-2 px-8 focus:outline-none hover:bg-gray-400 rounded text-lg">戻る</button>
-                          <button type="submit" class="text-white bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded text-lg">更新する</button>
+                        <div class="p-8 w-full flex justify-around mt-2">
+                          <button type="button" onclick="location.href='{{ route('members.index') }}' " class=" bg-gray-200 border-0 py- px-10 focus:outline-none hover:bg-gray-400 rounded text-lg">戻る</button>
+                          <button type="submit" class=" text-white bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded text-lg">編集する</button>
                         </div>
+                      </form>
+
+                      <form id="delete_{{ $member->id }}" method="post" action="{{ route('members.destroy', ['member' => $member->id ]) }}">
+                        @method('delete')
+                        @csrf
+
+                        <div class="flex justify-around mt-1">
+                          <a href="#" data-id="{{ $member->id }}" onclick="deletePost(this)" class="text-white bg-red-500 border-0 py-2 px-10 focus:outline-none hover:bg-red-600 rounded text-lg">削除</a>
+                        </div>
+                      </form>
 
                       </div>
-                    </form>
+                    
                     </div>
 
                   </div>
@@ -65,4 +75,13 @@
           </div>
       </div>
   </div>
+  <script>
+    function deletePost(e) {
+        'use strict';
+        if (confirm('本当に削除してもいいですか?')) {
+        document.getElementById('delete_' + e.dataset.id).submit();
+        }
+    }
+    </script>
+
 </x-app-layout>
