@@ -16,21 +16,25 @@ class MembersController extends Controller
      */
     public function index()
     {
-        $date_now = Carbon::now();
-        $date_parse = Carbon::parse(now());
-        echo $date_now->year;
-        echo $date_parse;
+        //カーボンテスト用
+        // $date_now = Carbon::now();
+        // $date_parse = Carbon::parse(now());
+        // echo $date_now->year;
+        // echo $date_parse;
 
-        $e_all = Member::all();
-        $q_get = DB::table('members')->select('name', 'created_at')->get();
+        // $e_all = Member::all();
+        // $q_get = DB::table('members')->select('name', 'created_at')->get();
+
         // $q_first = DB::table('members')->select('name')->first();
 
         // $c_test = collect([
         //     'name' => 'てすと',
         // ]);
 
+        $members = Member::select('name', 'email', 'tel', 'created_at')->get();
+
         return view('members.index', 
-        compact('e_all', 'q_get'));
+        compact('members'));
     }
 
     /**
@@ -40,7 +44,7 @@ class MembersController extends Controller
      */
     public function create()
     {
-        //
+        return view('members.create');
     }
 
     /**
