@@ -44,6 +44,7 @@ class MembersController extends Controller
      */
     public function create()
     {
+        
         return view('members.create');
     }
 
@@ -55,7 +56,23 @@ class MembersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //バリデーション
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:members'],
+            'tel' => ['required', 'max:20', 'unique:members'],
+        ]);
+
+        Member::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'tel' => $request->tel,
+        ]);
+
+        return redirect()
+        ->route('members.index')
+        ->with('message', '会員登録を実施しました。');
+
     }
 
     /**

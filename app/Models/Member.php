@@ -13,6 +13,6 @@ class Member extends Model
         'name',
         'email',
         'tel',
-        'password',
+        // 'password',
     ];
 }
