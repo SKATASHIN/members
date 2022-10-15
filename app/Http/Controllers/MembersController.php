@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Member;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use \Carbon\Carbon;
 
 class MembersController extends Controller
 {
@@ -13,7 +16,21 @@ class MembersController extends Controller
      */
     public function index()
     {
-        dd('メンバー');
+        $date_now = Carbon::now();
+        $date_parse = Carbon::parse(now());
+        echo $date_now->year;
+        echo $date_parse;
+
+        $e_all = Member::all();
+        $q_get = DB::table('members')->select('name', 'created_at')->get();
+        // $q_first = DB::table('members')->select('name')->first();
+
+        // $c_test = collect([
+        //     'name' => 'てすと',
+        // ]);
+
+        return view('members.index', 
+        compact('e_all', 'q_get'));
     }
 
     /**
