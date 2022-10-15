@@ -47,6 +47,7 @@
 
                                 </tbody>
                                 </table>
+                                {{ $members->links() }}
                             </div>
                             </div>
                         </section>

@@ -6,6 +6,7 @@ use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use \Carbon\Carbon;
+use Illuminate\Pagination\Paginator;
 
 class MembersController extends Controller
 {
@@ -31,7 +32,8 @@ class MembersController extends Controller
         //     'name' => 'てすと',
         // ]);
 
-        $members = Member::select('id', 'name', 'email', 'tel', 'created_at')->get();
+        $members = Member::select('id', 'name', 'email', 'tel', 'created_at')
+        ->paginate(5);
 
         return view('members.index', 
         compact('members'));

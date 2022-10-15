@@ -44,10 +44,12 @@
                                         </form>
 
                                     </tr>
-                                        @endforeach
+                                        
 
                                 </tbody>
                                 </table>
+
+                                @endforeach
                             </div>
                             </div>
                         </section>
